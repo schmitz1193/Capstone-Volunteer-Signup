@@ -47,35 +47,16 @@ app.controller("loginControl",
 		    console.log("Error creating user:", error);
 		  } else {
 		    console.log("Successfully created user account with uid:", userData.uid);
-		    console.log("need to create a a user with this uid");
-		    var usersRef = new Firebase("https://capstonesignup.firebaseio.com/users/" + userData.uid);
-		    console.log("usersRef ", usersRef);
-			$scope.data = $firebaseObject(usersRef);
-			// $scope.data.$loaded() 
-			// 	.then(function(){
-			// 	console.log("scope.data", $scope.data);
 			newUser = userData.uid;
+		    var usersRef = new Firebase("https://capstonesignup.firebaseio.com/users/");
 			console.log("newUser ", newUser);
-			// if ($scope.data.$value !== null) {
-			// 	console.log('user already saved');
-			// 	userExists = true;
-			// }
-			// if (userExists === false) {
-			// 	console.log("hello");
-			// 	uidRef.set({
-			// 		newUser: 
-			// 		{shirt: "false",
-			// 		size: "s"}
-			// 	});
-			// })
-			// // Setting userID 
-			// storage.setUserId(authData.uid);
-			//     console.log("then go to calendar of open assignments");
+			usersRef.child(newUser).child('shirt').set('false');
+			console.log("then go to calendar of open assignments");
+			// $location.path("/calendar");
 			  }
-			});
+		});
 
 	};
-
 
 }]);
 
