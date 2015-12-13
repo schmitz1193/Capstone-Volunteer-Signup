@@ -1,8 +1,8 @@
 // This module controls the partial splash.html and contains the login/registration code 
 
 app.controller("loginControl",
-	["$scope", "$firebaseAuth", "$firebaseArray", "$firebaseObject",
-	 function($scope, $firebaseAuth, $firebaseArray, $firebaseObject) {
+	["$scope", "$firebaseAuth", "$firebaseArray", "$firebaseObject", "$location",
+	 function($scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location) {
 
 	console.log("I made it!");
 
@@ -27,7 +27,8 @@ app.controller("loginControl",
   			} else {
     			console.log("Authenticated successfully with payload:", authData);
 				console.log("should direct to calendar of open assignments now");
-				// $location.path("/calendar");
+				// then go to calendar of open assignments
+				$location.path("/openCal");
   			}
 		})
 	};  
@@ -47,12 +48,15 @@ app.controller("loginControl",
 		    console.log("Error creating user:", error);
 		  } else {
 		    console.log("Successfully created user account with uid:", userData.uid);
+		    // use the uid returned from authentication to create a unique record
+		    // for each volunteer under users.  Add shirt=false under uid obj.
 			newUser = userData.uid;
 		    var usersRef = new Firebase("https://capstonesignup.firebaseio.com/users/");
 			console.log("newUser ", newUser);
 			usersRef.child(newUser).child('shirt').set('false');
-			console.log("then go to calendar of open assignments");
-			// $location.path("/calendar");
+
+			// then go to calendar of open assignments
+			$location.path("/openCal");
 			  }
 		});
 

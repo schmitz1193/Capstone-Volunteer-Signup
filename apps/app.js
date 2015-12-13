@@ -1,5 +1,5 @@
 
-var app = angular.module("CapstoneApp", ["ngRoute", "firebase", "angular.filter"]);
+var app = angular.module("CapstoneApp", ["ngRoute", "firebase", "angular.filter", "ui.calendar"]);
 
 
 app.config(['$routeProvider',
@@ -9,10 +9,10 @@ app.config(['$routeProvider',
         templateUrl: 'partials/splash.html',
         controller: 'loginControl'
       })
-      // .when('/volunteer', {
-      //   templateUrl: 'app/partials/board.html',
-      //   controller: 'Board'
-      // })
+      .when('/openCal', {
+        templateUrl: 'partials/openCal.html',
+        controller: 'openCalCtrl'
+      })
       // .when('/profile', {
       //   templateUrl: 'app/partials/profile.html',
       //   controller: 'Profile'
