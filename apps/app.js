@@ -13,9 +13,9 @@ app.config(['$routeProvider',
         templateUrl: 'partials/openCal.html',
         controller: 'openCalCtrl'
       })
-      // .when('/profile', {
-      //   templateUrl: 'app/partials/profile.html',
-      //   controller: 'Profile'
-      // })
+      .when('/addEvents', {
+        templateUrl: 'partials/addEvents.html',
+        controller: 'addEventsCtrl'
+      })
       .otherwise('/login');
   }]);

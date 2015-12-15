@@ -4,7 +4,7 @@ app.controller("loginControl",
 	["$scope", "$firebaseAuth", "$firebaseArray", "$firebaseObject", "$location",
 	 function($scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location) {
 
-	console.log("I made it!");
+	console.log("I made it to login!");
 
 	 $scope.usersObj={};
 	 $scope.email;
@@ -19,6 +19,8 @@ app.controller("loginControl",
 			password: $scope.password
 		};
 		console.log("login usersObj", usersObj);
+		checkEmail = usersObj.email;
+		checkPassword = usersObj.password;
 
 		ref.authWithPassword(usersObj, 
 			function(error, authData) {
@@ -27,14 +29,22 @@ app.controller("loginControl",
   			} else {
     			console.log("Authenticated successfully with payload:", authData);
 				console.log("should direct to calendar of open assignments now");
-				// then go to calendar of open assignments
-				$location.path("/openCal");
-  			}
-		})
-	};  
+				if ((checkEmail === "ssk@gmail.com") && (checkPassword === "ssk")) {
+					// admin..go to admin screen aka addEvents
+
+					console.log("I made it to the admin path");
+					$location.path("/addEvents");
+					// otherwise go to calendar of open assignments
+					} else {
+						$location.path("/openCal");
+					}
+				}
+  			})
+		};
+  
 	
 	// if not registered, enter email & password to create user account
-		$scope.registerUser = function() {
+	$scope.registerUser = function() {
 		var usersObj = {
 			email: $scope.email,
 			password: $scope.password
@@ -57,10 +67,19 @@ app.controller("loginControl",
 
 			// then go to calendar of open assignments
 			$location.path("/openCal");
-			  }
+		  }
 		});
 
 	};
+
+
+	//if logout is selected on the nav bar, call this function and direct to login screen
+ 
+	$scope.logout = function() {
+		ref.unauth();
+		$location.path("/login");
+
+	}
 
 }]);
 

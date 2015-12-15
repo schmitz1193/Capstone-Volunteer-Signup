@@ -1,0 +1,51 @@
+<!-- Navigation -->
+	<nav class="navbar navbar-default">
+		<div class="row">
+			<div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#/">Admin</a>
+		    </div>
+        	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      			<ul class="nav navbar-nav">
+	              <li><a href="#/addEvents" id="open">Open Assignments</a></li>
+	              <li><a href="#/addEvents" id="filled">Filled Assignments</a></li>
+	              <li><a href="#/addEvents" id="all">All Assignments</a></li>
+	              <li><a href="#/" id="logout" ng-click="logout()">Sign Out</a></li>
+            </ul>
+          </div> 
+      	</div>
+	</nav>
+
+ 
+  <div role="main">
+      <div class="container">
+          <div class="addEvent row-fluid">
+              <div class="span4">
+                  <p>Please complete all input to add an event</p>
+                  <input type="date" ng-model="date.value" placeholder="yyy-MM-dd" required>
+                  <div role="alert">
+                     <span class="error" ng-show="myForm.input.$error.required">
+                         Required!</span>
+                     <span class="error" ng-show="myForm.input.$error.date">
+                         Not a valid date!</span>
+                    </div>
+      						<input type="time" ng-model="time.value" placeholder="HH:mm:ss">
+      						<input type="text" ng-model="duration" placeholder="enter shift length">
+      						<input type="text" ng-model="title" placeholder="enter job title">
+      						<input type="text" ng-model="slots" placeholder="enter number needed">
+                  <button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button>
+              </div>
+
+              <div class="span8">
+                  <div ui-calendar="uiConfig.calendar" ng-model="eventSources">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
