@@ -9,7 +9,6 @@ app.controller("addEventsCtrl",
 	console.log("I made it to admin page!");
 
   // Setting up dates using moment
-
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -21,15 +20,20 @@ app.controller("addEventsCtrl",
   $scope.title;
   $scope.slots;   
 
-	$scope.events = [];
 
-  $scope.addEvent = function() {
+  $scope.addEvent = function() {  
+    var stringDate = String($scope.date);
+    console.log("stringDate ", stringDate);
+    var inputDate = moment(stringDate).format('YYYY-MM-DDT');   
+    console.log("moment date ", inputDate);
 
-  console.log("date ", $scope.date);
-  console.log("time ", $scope.time);
-  console.log("duration ", $scope.duration);
-  console.log("title ", $scope.title);
-  console.log("slots ", $scope.slots);
+    console.log("time ", $scope.time);
+  // console.log("duration ", $scope.duration);
+  // console.log("title ", $scope.title);
+  // console.log("slots ", $scope.slots);
+  //      $scope.date = {
+  //        value: new Date(2013, 9, 22)
+  //      };
 }
 
   // when a new event has been entered, create the new record to add to the db.  
@@ -47,28 +51,33 @@ app.controller("addEventsCtrl",
   //         end: url
   //       })  
   //   }
-
-
-
   // no blank input is allowed.  if a blank is returned, the event is not accepted
 
+	  $scope.events = [];
+    // put the event data from the firebase db into an array 
+    var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
 
-  // put the event data from the firebase db into an array 
+    var constructedArray=[];
+    $scope.fireEvents = $firebaseArray(ref);
+    $scope.fireEvents.$loaded().then(function(data){
+      console.log("data ", data);
+      for(var i =0; i < data.length; i++){
+        var myObjectToPush = {}
+        console.log("data[i]", data[i]);
+        myObjectToPush.allDay = data[i].allDay;
+        myObjectToPush.end = data[i].end;
+        myObjectToPush.start = data[i].start;
+        myObjectToPush.title = data[i].title;
+        constructedArray.push(myObjectToPush);
+      }
+      console.log("constructed array ", constructedArray);
+   })
 
-  // var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
-  // $scope.fireEvents = $firebaseArray(ref);
+    // bind the newly constructed array to the DOM
+    $scope.events = constructedArray;  
 
-   $scope.events = [
-      {title: 'All Day Event',start: new Date(y, m, 1)},
-      {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-      {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false}
-     ];
-
-
-  // after the promise is returned from firebase, configure the object for the calendar
-  // $scope.fireEvents.$loaded(function(){
+  // Configure the object for the calendar
+    $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
       calendar:{
         height: 450,
@@ -81,13 +90,12 @@ app.controller("addEventsCtrl",
         eventLimit: true, // allow "more" link when too many events
         // $scope.weekNumbers = true;
         aspectRatio: 3,
-        // events: $scope.fireEvents,
+        // events: $scope.events,
         dayClick: $scope.alertEventOnClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
         // eventRender: $scope.eventRender  
       }
     };
-    $scope.eventSources = [$scope.events];
   // }) 
 }]);

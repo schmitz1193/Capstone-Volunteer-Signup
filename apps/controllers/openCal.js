@@ -5,49 +5,39 @@ app.controller("openCalCtrl",
 	["$scope", "$compile", "$firebaseArray", "uiCalendarConfig", 
 	 function($scope, $compile, $firebaseArray, uiCalendarConfig) {
 
-	console.log("I made it to calendar!");
+  	console.log("I made it to calendar!");
 
-  // Setting up dates using moment
+    // Setting up dates using moment
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();  
 
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
-    
+  	$scope.events = [];
 
-	$scope.events = [];
+    // put the event data from the firebase db into an array 
+    var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
+    var constructedArray=[];
+    $scope.fireEvents = $firebaseArray(ref);
+    $scope.fireEvents.$loaded().then(function(data){
+      console.log("data ", data);
+      for(var i =0; i < data.length; i++){
+        var myObjectToPush = {}
+        console.log("data[i]", data[i]);
+        myObjectToPush.allDay = data[i].allDay;
+        myObjectToPush.end = data[i].end;
+        myObjectToPush.start = data[i].start;
+        myObjectToPush.title = data[i].title;
+        constructedArray.push(myObjectToPush);
+      }
+     console.log("constructed array ", constructedArray);
+    })
 
-  // put the event data from the firebase db into an array 
+    // bind the newly constructed array to the DOM
+    $scope.events = constructedArray;  
 
-  var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
-
-  $scope.fireEvents = $firebaseArray(ref);
-
-  console.log("fireEvents ", $scope.fireEvents);
-
-  $scope.fireEvents.$loaded(function(){
-   // angular.forEach($scope.fireEvents, function(event, key) {
-   //      $('#calendar').fullCalendar('renderEvent', {
-   //        title: event.title + '\n' + event.who.join(", "),
-   //        start: new Date(event.date + ' ' + event.from),
-   //        end: new Date(event.date + ' ' + event.to),
-   //        who: event.who,
-   //        where: event.where,
-   //        comment: event.comment,
-   //        firebaseId: key
-   //      }, true);
-   //    });
-   //  };
-
- 
-     // Render Tooltip 
-    // $scope.eventRender = function( event, element, view ) { 
-    //     element.attr({'tooltip': event.title,
-    //                  'tooltip-append-to-body': true});
-    //     $compile(element)($scope);
-    // };
-
-    // Configure object
+    // Configure object for the calendar
+    $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
       calendar:{
         height: 450,
@@ -59,14 +49,12 @@ app.controller("openCalCtrl",
         },
         eventLimit: true, // allow "more" link when too many events
         // $scope.weekNumbers = true;
-        aspectRatio: 4,
-        events: $scope.fireEvents,
+        aspectRatio: 3,
+        // events: $scope.events
         dayClick: $scope.alertEventOnClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
-        // eventRender: $scope.eventRender  
+        // // eventRender: $scope.eventRender  
       }
     };
-    // $scope.eventSources = [$scope.events];
-  }) 
 }]);

@@ -26,19 +26,19 @@
           <div class="addEvent row-fluid">
               <div class="span4">
                   <p>Please complete all input to add an event</p>
-                  <input type="date" ng-model="date.value" placeholder="yyy-MM-dd" required>
+                  <input type="date" name="input" ng-model="date">
+      						<input type="time" ng-model="time" placeholder="HH:mm:ss">
+      						<input type="text" ng-model="duration" placeholder="enter shift length">
+      						<input type="text" ng-model="title" placeholder="enter job title">
+      						<input type="text" ng-model="slots" placeholder="enter number needed">
+                  <button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button>
+              </div>
                   <div role="alert">
                      <span class="error" ng-show="myForm.input.$error.required">
                          Required!</span>
                      <span class="error" ng-show="myForm.input.$error.date">
                          Not a valid date!</span>
                     </div>
-      						<input type="time" ng-model="time.value" placeholder="HH:mm:ss">
-      						<input type="text" ng-model="duration" placeholder="enter shift length">
-      						<input type="text" ng-model="title" placeholder="enter job title">
-      						<input type="text" ng-model="slots" placeholder="enter number needed">
-                  <button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button>
-              </div>
 
               <div class="span8">
                   <div ui-calendar="uiConfig.calendar" ng-model="eventSources">
