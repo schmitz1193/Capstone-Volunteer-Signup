@@ -20,32 +20,40 @@
       	</div>
 	</nav>
 
- 
-  <div role="main">
-      <div class="container">
-          <div class="addEvent row-fluid">
-              <div class="span4">
-                  <p>Please complete all input to add an event</p>
-                  <input type="date" name="input" ng-model="date">
-      						<input type="time" ng-model="time" placeholder="HH:mm:ss">
-      						<input type="text" ng-model="duration" placeholder="enter shift length">
-      						<input type="text" ng-model="title" placeholder="enter job title">
-      						<input type="text" ng-model="slots" placeholder="enter number needed">
-                  <button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button>
-              </div>
-                  <div role="alert">
-                     <span class="error" ng-show="myForm.input.$error.required">
-                         Required!</span>
-                     <span class="error" ng-show="myForm.input.$error.date">
-                         Not a valid date!</span>
-                    </div>
+  <!-- FullCalendar goes here!!!  -->
+  <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 
-              <div class="span8">
-                  <div ui-calendar="uiConfig.calendar" ng-model="eventSources">
-                  </div>
-              </div>
+  <!-- add board modal -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Please enter all data to create a new assignment</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            <label for="start-time">Start Time:  </label><input type="time" ng-model="startTime">
           </div>
-      </div>
-  </div>
-</div>
+          <div>
+            <label for="end-time">End Time:  </label><input type="time" ng-model="endTime">
+          </div>
+          <div>
+            <label for="description">Description:  </label><input type="text" ng-model="description">
+          </div>
+          <div>
+            <label for="num-needed">Volunteers Needed:  </label><input type="text" ng-model="numNeeded">
+          </div>
+          <div><button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button></div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" ng-click="createNewBoard()">Save</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
 

@@ -1,8 +1,8 @@
 // This module controls the partial splash.html and contains the login/registration code 
 
 app.controller("loginControl",
-	["$scope", "$firebaseAuth", "$firebaseArray", "$firebaseObject", "$location",
-	 function($scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location) {
+	["$scope", "$location", "$firebaseAuth", "$firebaseArray", "$firebaseObject", 
+	 function($scope, $location, $firebaseAuth, $firebaseArray, $firebaseObject) {
 
 	console.log("I made it to login!");
 
@@ -36,7 +36,8 @@ app.controller("loginControl",
 					$location.path("/addEvents");
 					// otherwise go to calendar of open assignments
 					} else {
-						$location.path("/openCal");
+						$location.path("/openCal").replace();
+						// .replace???
 					}
 				}
   			})

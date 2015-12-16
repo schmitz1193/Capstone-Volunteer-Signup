@@ -13,6 +13,12 @@ app.controller("openCalCtrl",
     var m = date.getMonth();
     var y = date.getFullYear();  
 
+    $scope.confirmSignUp = function() {
+      console.log("made it to signup ");
+    }
+
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////
   	$scope.events = [];
 
     // put the event data from the firebase db into an array 
@@ -32,6 +38,20 @@ app.controller("openCalCtrl",
       }
      console.log("constructed array ", constructedArray);
     })
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////// Listen for click events from the Calendar ////////
+   /* alert on eventClick */
+    $scope.alertDayClick = function( date, jsEvent, view){
+        // $scope.addModal = (date.title + ' was clicked ');
+        console.log("day click works ", date);
+    };
+   /* alert on eventClick */
+    $scope.alertEventClick = function( event, jsEvent, view){
+       $("#signupModal").modal({show: true});
+        console.log("Event click works ", event);
+    };
+    // ///////////////////////////////////////////////////////
 
     // bind the newly constructed array to the DOM
     $scope.events = constructedArray;  
@@ -50,8 +70,8 @@ app.controller("openCalCtrl",
         eventLimit: true, // allow "more" link when too many events
         // $scope.weekNumbers = true;
         aspectRatio: 3,
-        // events: $scope.events
-        dayClick: $scope.alertEventOnClick,
+        eventClick: $scope.alertEventClick,
+        dayClick: $scope.alertDayClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
         // // eventRender: $scope.eventRender  

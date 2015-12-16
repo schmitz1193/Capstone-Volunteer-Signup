@@ -22,38 +22,30 @@ app.controller("addEventsCtrl",
 
 
   $scope.addEvent = function() {  
-    var stringDate = String($scope.date);
-    console.log("stringDate ", stringDate);
-    var inputDate = moment(stringDate).format('YYYY-MM-DDT');   
-    console.log("moment date ", inputDate);
 
-    console.log("time ", $scope.time);
-  // console.log("duration ", $scope.duration);
-  // console.log("title ", $scope.title);
-  // console.log("slots ", $scope.slots);
-  //      $scope.date = {
-  //        value: new Date(2013, 9, 22)
-  //      };
-}
+  console.log("Start time ", $scope.startTime);
+  console.log("end time ", $scope.endTime);
+  console.log("description ", $scope.description);
+  console.log("volunteers needed ", $scope.numNeeded);
+  }
 
+  // no blank input is allowed.  if a blank is returned, the event is not accepted
   // when a new event has been entered, create the new record to add to the db.  
   // must first format the date and time using Moment
   // $scope.addEvent = function() {}
 
-  //     var url = $scope.image;
   //     // Firebase ref for all events
   //     var allEvents = new Firebase("https://capstonesignup.firebaseio.com/events/");
   //     $scope.allEventsArray = $firebaseArray(allEvents);
   //     console.log("all events array", $scope.allEventsArray);
   //       $scope.allEventsArray.$add({
-  //         title: $scope.title,
-  //         start: uid,
-  //         end: url
+  //         title: $scope.description,
+  //         start: date&time in a moment,
+  //         end: date&time in a moment
   //       })  
   //   }
-  // no blank input is allowed.  if a blank is returned, the event is not accepted
-
-	  $scope.events = [];
+// /////////////////////////////////////////////////////////////////////////////////
+    $scope.events = [];
     // put the event data from the firebase db into an array 
     var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
 
@@ -72,6 +64,20 @@ app.controller("addEventsCtrl",
       }
       console.log("constructed array ", constructedArray);
    })
+// /////////////////////////////////////////////////////////////////////////
+// Listen for click events from the Calendar
+   /* alert on eventClick */
+    $scope.alertDayClick = function( date, jsEvent, view){
+        // need modal so new event for this day can be input..have it built need to access
+        $("#addModal").modal({show: true});
+        console.log("day click add event ", date);
+    };
+   /* alert on eventClick */
+    $scope.alertEventClick = function( event, jsEvent, view){
+        // this is for volunteer screen....sign up modal needed to be built and accessed
+        console.log("Event click works ", event);
+    };
+// ////////////////////////////////////////////////////////////////////////
 
     // bind the newly constructed array to the DOM
     $scope.events = constructedArray;  
@@ -90,8 +96,8 @@ app.controller("addEventsCtrl",
         eventLimit: true, // allow "more" link when too many events
         // $scope.weekNumbers = true;
         aspectRatio: 3,
-        // events: $scope.events,
-        dayClick: $scope.alertEventOnClick,
+        eventClick: $scope.alertEventClick,
+        dayClick: $scope.alertDayClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
         // eventRender: $scope.eventRender  
