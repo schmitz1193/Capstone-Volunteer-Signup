@@ -26,10 +26,29 @@ app.controller("openCalCtrl",
       // Update the user record...load must be done on the object not the reference only
       $scope.data.$loaded() 
         .then(function(){
-        // userRef.$loaded().then(function(data){
         //   console.log("data ", data);
         userRef.update({ size: $scope.size });
-      })
+        // this replaces if just event3 is added.  Need to push???
+        // userRef.update({signup: 
+        //                 {event1: $scope.event,
+        //                  event2: "commit"
+        //                 }
+        //               })
+        })
+      userEvent = $scope.eventKey;
+      console.log("key ", userEvent);
+      var userEventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
+      $scope.data = $firebaseObject(userRef);
+      // Create a userevent record to store the user and the event they signed up for
+      $scope.data.$loaded() 
+        .then(function(){
+                userEventRef.set({
+                uid: uid,
+                eventid: userEvent
+           })  
+
+        // signupRef.child(signup).child(userEvent).set("what now?");
+        })
     }
 
 
@@ -72,6 +91,8 @@ app.controller("openCalCtrl",
        $scope.modalEnd = moment(event.end).format('HH:mm');
        $scope.modalDescription = event.description;
        $scope.eventKey = event.id;
+       $scope.event = event;
+       console.log("scope event ", $scope.event);
        $("#signupModal").modal({show: true});
 
     };

@@ -74,7 +74,7 @@ app.controller("loginControl",
           			uid: newUser,
           			shirt: false,
           			size: "XX",
-          			events: "stuff"
+          			signup: "stuff"
      		   })  
    		   })
   
