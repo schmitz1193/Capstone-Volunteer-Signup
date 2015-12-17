@@ -3,10 +3,15 @@
 // Only the admin has access to this screen.  i.e. someone with special log-in cedentials
 
 app.controller("addEventsCtrl",
-	["$scope", "$compile", "$firebaseArray", "uiCalendarConfig", 
-	 function($scope, $compile, $firebaseArray, uiCalendarConfig) {
+	["$scope", "storage", "$compile", "$firebaseArray", "uiCalendarConfig", 
+	 function($scope, storage, $compile, $firebaseArray, uiCalendarConfig) {
 
 	console.log("I made it to admin page!");
+
+     // Getting UserID
+      // var uid = storage.getUserId();
+      // console.log("uid", uid);
+
 
   // Setting up dates using moment
   var date = new Date();
@@ -20,30 +25,37 @@ app.controller("addEventsCtrl",
   $scope.title;
   $scope.slots;   
 
-
+//  Function called from the Admin screen (modal) to add an event to the db 
   $scope.addEvent = function() {  
+  // must first format the date and time using Moment
+    var stringStart = String($scope.startTime);
+    var timeStart = moment(stringStart).format("THH:mm:ss");
 
-  console.log("Start time ", $scope.startTime);
-  console.log("end time ", $scope.endTime);
-  console.log("description ", $scope.description);
-  console.log("volunteers needed ", $scope.numNeeded);
-  }
+    var stringEnd = String($scope.endTime);
+    var timeEnd = moment(stringEnd).format("THH:mm:ss");
+ 
+    calStart = $scope.newDate + timeStart;
+    calEnd = $scope.newDate + timeEnd;
+
+    console.log("start ", calStart);
+    console.log("end ", calEnd);
 
   // no blank input is allowed.  if a blank is returned, the event is not accepted
   // when a new event has been entered, create the new record to add to the db.  
-  // must first format the date and time using Moment
-  // $scope.addEvent = function() {}
 
-  //     // Firebase ref for all events
-  //     var allEvents = new Firebase("https://capstonesignup.firebaseio.com/events/");
-  //     $scope.allEventsArray = $firebaseArray(allEvents);
-  //     console.log("all events array", $scope.allEventsArray);
-  //       $scope.allEventsArray.$add({
-  //         title: $scope.description,
-  //         start: date&time in a moment,
-  //         end: date&time in a moment
-  //       })  
-  //   }
+  // ///////// Firebase ref for all events  //////////////////////
+      var allEvents = new Firebase("https://capstonesignup.firebaseio.com/events/");
+      $scope.allEventsArray = $firebaseArray(allEvents);
+      console.log("all events array", $scope.allEventsArray);
+      $scope.allEventsArray.$loaded().then(function(data){
+        $scope.allEventsArray.$add({
+          title: $scope.description,
+          start: calStart,
+          end: calEnd,
+          allDay: false 
+        })  
+      })
+  }
 // /////////////////////////////////////////////////////////////////////////////////
     $scope.events = [];
     // put the event data from the firebase db into an array 
@@ -60,6 +72,8 @@ app.controller("addEventsCtrl",
         myObjectToPush.end = data[i].end;
         myObjectToPush.start = data[i].start;
         myObjectToPush.title = data[i].title;
+        myObjectToPush.id = data[i].$id;
+        myObjectToPush.description = data[i].description;
         constructedArray.push(myObjectToPush);
       }
       console.log("constructed array ", constructedArray);
@@ -68,11 +82,14 @@ app.controller("addEventsCtrl",
 // Listen for click events from the Calendar
    /* alert on eventClick */
     $scope.alertDayClick = function( date, jsEvent, view){
-        // need modal so new event for this day can be input..have it built need to access
+        // need modal so new event for this day can be input..the date from the fullCaledar callback
+        // returns the day (in a moment) that the click was on.  Put it on the scope so the addEvent 
+        // function can use to create a new event
         $("#addModal").modal({show: true});
-        console.log("day click add event ", date);
+        $scope.newDate = date.format();
+        console.log("day click add event ", $scope.newDate);
     };
-   /* alert on eventClick */
+   /* alert on eventClick this will give the Admin info on who & how many have signed up*/
     $scope.alertEventClick = function( event, jsEvent, view){
         // this is for volunteer screen....sign up modal needed to be built and accessed
         console.log("Event click works ", event);

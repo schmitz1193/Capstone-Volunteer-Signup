@@ -1,3 +1,4 @@
+
 <!-- Navigation -->
 	<nav class="navbar navbar-default">
 		<div class="row">
@@ -31,19 +32,22 @@
 	          <h4 class="modal-title">Your committment is appreciated</h4>
 	        </div>
 	        <div class="modal-body">
-	          <div>
-	          You have volunteered for 
-<!-- 	          {{ title }} on {{ date }} from {{ startTime }} to {{ endTime }}
- -->	          </div>
-	          <div>An email confirmation will be sent to you shortly</div>
-	          <div>As a thank you for your time and talent, we will present you with a t-shirt when you report for your assignment.</div>  
-	          <div>Please indicate your size:  </div>
-	          <div><button type="button" class="btn btn-primary" ng-click="confirmSignUp()">Confirm signup by clickin here</button></div>
-	          
-	        </div>
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	          <button type="button" class="btn btn-primary" ng-click="createNewBoard()">Save</button>
+	          	<div>You have clicked on {{ modalTitle }} which is scheduled for {{ modalDay }} between {{ modalStart }} and {{ modalEnd }}.  This assignment will involve {{ modalDescription }}.</div>
+
+				<div>If you would like to sign-up for this assignment, please click below.  You will recieve a confirmation of your assignment prior to your report time.</div>
+
+				<div>As a thank you for you time and talent, we will present you with a t-shirt when you report for your assignment.  Please indicate you size:</div>
+ 	          <div>
+	 	        <select ng-model="size"> 
+	  				<option value="small">S</option>
+	 			    <option value="medium">M</option>
+	  				<option value="large">L</option>
+	 				<option value="xlarge">XL</option>
+				</select>
+	 	      </div>
+ 	        <div class="modal-footer">
+	          <button type="button" class="btn btn-primary" ng-click="confirmSignUp()">Yes, sign me up!</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Nope, this doesn't work.</button>
 	        </div>
 	      </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->

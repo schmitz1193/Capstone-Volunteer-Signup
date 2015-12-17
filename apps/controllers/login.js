@@ -1,8 +1,8 @@
 // This module controls the partial splash.html and contains the login/registration code 
 
 app.controller("loginControl",
-	["$scope", "$location", "$firebaseAuth", "$firebaseArray", "$firebaseObject", 
-	 function($scope, $location, $firebaseAuth, $firebaseArray, $firebaseObject) {
+	["$scope", "storage", "$firebaseAuth", "$firebaseArray", "$firebaseObject", "$location",
+	 function($scope, storage, $firebaseAuth, $firebaseArray, $firebaseObject, $location) {
 
 	console.log("I made it to login!");
 
@@ -28,16 +28,19 @@ app.controller("loginControl",
     		console.log("Login Failed!", error);
   			} else {
     			console.log("Authenticated successfully with payload:", authData);
+				// Setting userID 
+				storage.setUserId(authData.uid);
 				console.log("should direct to calendar of open assignments now");
 				if ((checkEmail === "ssk@gmail.com") && (checkPassword === "ssk")) {
 					// admin..go to admin screen aka addEvents
 
 					console.log("I made it to the admin path");
 					$location.path("/addEvents");
+					$scope.$apply();
 					// otherwise go to calendar of open assignments
 					} else {
-						$location.path("/openCal").replace();
-						// .replace???
+						$location.path("/openCal");
+						$scope.$apply();
 					}
 				}
   			})
@@ -62,17 +65,30 @@ app.controller("loginControl",
 		    // use the uid returned from authentication to create a unique record
 		    // for each volunteer under users.  Add shirt=false under uid obj.
 			newUser = userData.uid;
-		    var usersRef = new Firebase("https://capstonesignup.firebaseio.com/users/");
-			console.log("newUser ", newUser);
-			usersRef.child(newUser).child('shirt').set('false');
-
+		    var usersRef = new Firebase("https://capstonesignup.firebaseio.com/users/" + newUser);
+      		$scope.data = $firebaseObject(usersRef);
+      		// Create the user record...load must be done on the object not the reference only
+			$scope.data.$loaded() 
+				.then(function(){
+        		usersRef.set({
+          			uid: newUser,
+          			shirt: false,
+          			size: "XX",
+          			events: "stuff"
+     		   })  
+   		   })
+  
+			// Setting userID 
+			storage.setUserId(newUser);
 			// then go to calendar of open assignments
 			$location.path("/openCal");
+			$scope.$apply();
+
 		  }
 		});
 
 	};
-
+	
 
 	//if logout is selected on the nav bar, call this function and direct to login screen
  
