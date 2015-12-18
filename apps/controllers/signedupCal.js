@@ -25,17 +25,15 @@ app.controller("signedupCalCtrl",
         // (need to create array through firebase to use $remove)
         // finally use the remove on this array to delete the "pin" from the delete button
     eventKeyArray = [];
-    $scope.bindEventKeyArray = [];
     var usereventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
     var obj = $firebaseObject(usereventRef);
     obj.$loaded().then(function(data){
       usereventRef.orderByChild("uid").on("child_added", function(snapshot) {
         console.log("eventid ", snapshot.val().eventid);
-        console.log("uid ", snapshot.val().uid);
-
         var signupEventKeys = snapshot.val().eventid;
         eventKeyArray.push(signupEventKeys);
         console.log("eventKeyArray ", eventKeyArray);
+        $scope.bindEventKeyArray = eventKeyArray;
       });
     });
 
@@ -49,11 +47,11 @@ app.controller("signedupCalCtrl",
         var eventsObjectRef = snap.val();
         $scope.bindEventKeyArray.forEach(function(element) {
         myEventsArray.push(eventsObjectRef[element]);
+        console.log("myEventsArray ", myEventsArray);
         }); 
        // Do I need a loop here to add the id to this array???????
       });
     });
-        console.log("myEventsArray ", myEventsArray);
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////// Listen for click events from the Calendar ////////
@@ -78,7 +76,7 @@ app.controller("signedupCalCtrl",
     // bind the newly constructed array to the DOM
     // $scope.events = constructedArray;  
     $scope.events = myEventsArray;
-    console.log("scope events ", $scope.events);
+     console.log("scope events ", $scope.events);
     // Configure object for the calendar
     $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
