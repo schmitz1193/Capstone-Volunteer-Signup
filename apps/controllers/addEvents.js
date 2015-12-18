@@ -6,7 +6,7 @@ app.controller("addEventsCtrl",
 	["$scope", "storage", "$compile", "$firebaseArray", "uiCalendarConfig", 
 	 function($scope, storage, $compile, $firebaseArray, uiCalendarConfig) {
 
-	console.log("I made it to admin page!");
+	console.log("Made it to addEvents!");
 
      // Getting UserID
       // var uid = storage.getUserId();
@@ -64,10 +64,10 @@ app.controller("addEventsCtrl",
     var constructedArray=[];
     $scope.fireEvents = $firebaseArray(ref);
     $scope.fireEvents.$loaded().then(function(data){
-      console.log("data ", data);
+      // console.log("data ", data);
       for(var i =0; i < data.length; i++){
         var myObjectToPush = {}
-        console.log("data[i]", data[i]);
+        // console.log("data[i]", data[i]);
         myObjectToPush.allDay = data[i].allDay;
         myObjectToPush.end = data[i].end;
         myObjectToPush.start = data[i].start;
@@ -76,7 +76,7 @@ app.controller("addEventsCtrl",
         myObjectToPush.description = data[i].description;
         constructedArray.push(myObjectToPush);
       }
-      console.log("constructed array ", constructedArray);
+      // console.log("constructed array ", constructedArray);
    })
 // /////////////////////////////////////////////////////////////////////////
 // Listen for click events from the Calendar

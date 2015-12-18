@@ -5,7 +5,7 @@ app.controller("signedupCalCtrl",
 	["$scope", "storage", "$compile", "$firebaseArray", "$firebaseObject", "uiCalendarConfig", 
 	 function($scope, storage, $compile, $firebaseArray, $firebaseObject, uiCalendarConfig) {
 
-  	console.log("I made it to signed up calendar!");
+  	console.log("I made it to signedupCal!");
 
     // Getting UserID
       var uid = storage.getUserId();
@@ -24,45 +24,36 @@ app.controller("signedupCalCtrl",
         // ???what is query?  Is it an array???
         // (need to create array through firebase to use $remove)
         // finally use the remove on this array to delete the "pin" from the delete button
-    $scope.eventKeyArray = [];
+    eventKeyArray = [];
+    $scope.bindEventKeyArray = [];
     var usereventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
-    // uidQuery contains all the userevents with the uid of the current user
-    // uidEventQuery = eventRef.orderByChild("uid").equalTo(uid);
-    usereventRef.orderByChild("uid").on("child_added", function(snapshot) {
-      console.log("event keys are ", snapshot.key() + " current userID is " + snapshot.val().uid);
-      var signupEventKeys = snapshot.key();
-      $scope.eventKeyArray.push(signupEventKeys);
-      // var eventsRef = new Firebase("https://capstonesignup.firebaseio.com/events/");
-      // eventsRef.orderByChild(signupEvents).on("child_added", function(snapshot) {
-      //   console.log("first return is ", snapshot.key() + snapshot.val().signupEvents);
-      // })
-      console.log("eventKeyArray ", $scope.eventKeyArray);
+    var obj = $firebaseObject(usereventRef);
+    obj.$loaded().then(function(data){
+      usereventRef.orderByChild("uid").on("child_added", function(snapshot) {
+        console.log("eventid ", snapshot.val().eventid);
+        console.log("uid ", snapshot.val().uid);
+
+        var signupEventKeys = snapshot.val().eventid;
+        eventKeyArray.push(signupEventKeys);
+        console.log("eventKeyArray ", eventKeyArray);
+      });
     });
 
+    console.log("scope eventKeyArray ", $scope.bindEventKeyArray);
+    var myEventsArray = [];
 
-
-
-    $scope.events = [];
-
-    // put the event data from the firebase db into an array 
-    var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
-    var constructedArray=[];
-    $scope.fireEvents = $firebaseArray(ref);
-    $scope.fireEvents.$loaded().then(function(data){
-      console.log("data ", data);
-      for(var i =0; i < data.length; i++){
-        var myObjectToPush = {}
-        console.log("data[i]", data[i]);
-        myObjectToPush.allDay = data[i].allDay;
-        myObjectToPush.end = data[i].end;
-        myObjectToPush.start = data[i].start;
-        myObjectToPush.title = data[i].title;
-        myObjectToPush.id = data[i].$id;
-        myObjectToPush.description = data[i].description;
-        constructedArray.push(myObjectToPush);
-      }
-     console.log("constructed array ", constructedArray);
-    })
+    var eventsRef = new Firebase("https://capstonesignup.firebaseio.com/events/");
+    var eventObj = $firebaseObject(eventsRef);
+    eventObj.$loaded().then(function(data){
+      eventsRef.once('value', function(snap) {
+        var eventsObjectRef = snap.val();
+        $scope.bindEventKeyArray.forEach(function(element) {
+        myEventsArray.push(eventsObjectRef[element]);
+        }); 
+       // Do I need a loop here to add the id to this array???????
+      });
+    });
+        console.log("myEventsArray ", myEventsArray);
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////// Listen for click events from the Calendar ////////
@@ -85,15 +76,16 @@ app.controller("signedupCalCtrl",
     // ///////////////////////////////////////////////////////
 
     // bind the newly constructed array to the DOM
-    $scope.events = constructedArray;  
-
+    // $scope.events = constructedArray;  
+    $scope.events = myEventsArray;
+    console.log("scope events ", $scope.events);
     // Configure object for the calendar
     $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
       calendar:{
         height: 450,
         editable: true,
-        header:{
+        header:{  
           left: 'month basicWeek basicDay',
           center: 'title',
           right: 'today prev,next'
