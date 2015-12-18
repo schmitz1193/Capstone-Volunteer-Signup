@@ -15,8 +15,9 @@ app.controller("openCalCtrl",
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
-    var y = date.getFullYear();  
+    var y = date.getFullYear(); 
 
+// /////////////User has volunteered for an event.  From modal on volunteer calendar //////////////////
     $scope.confirmSignUp = function() {
       console.log("made it to signup ");
       console.log("t shirt ", $scope.size);
@@ -26,31 +27,20 @@ app.controller("openCalCtrl",
       // Update the user record...load must be done on the object not the reference only
       $scope.data.$loaded() 
         .then(function(){
-        //   console.log("data ", data);
         userRef.update({ size: $scope.size });
-        // this replaces if just event3 is added.  Need to push???
-        // userRef.update({signup: 
-        //                 {event1: $scope.event,
-        //                  event2: "commit"
-        //                 }
-        //               })
         })
       userEvent = $scope.eventKey;
-      console.log("key ", userEvent);
       var userEventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
-      $scope.data = $firebaseObject(userRef);
+      $scope.signup = $firebaseArray(userEventRef);
       // Create a userevent record to store the user and the event they signed up for
-      $scope.data.$loaded() 
-        .then(function(){
-                userEventRef.set({
+      $scope.signup.$loaded() 
+        .then(function(data){
+                $scope.signup.$add({
                 uid: uid,
                 eventid: userEvent
            })  
-
-        // signupRef.child(signup).child(userEvent).set("what now?");
         })
     }
-
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
     $scope.events = [];
@@ -82,7 +72,7 @@ app.controller("openCalCtrl",
         // $scope.addModal = (date.title + ' was clicked ');
         console.log("day click works ", date);
     };
-   /* alert on eventClick */
+   // /* alert on eventClick - place info form event on the DOM so the modal can display for user */
     $scope.alertEventClick = function( event, jsEvent, view){
        console.log("Event click works ", event);
        $scope.modalTitle = event.title;

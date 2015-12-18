@@ -13,6 +13,10 @@ app.config(['$routeProvider',
         templateUrl: 'partials/openCal.html',
         controller: 'openCalCtrl'
       })
+      .when('/signedupCal', {
+        templateUrl: 'partials/signedupCal.html',
+        controller: 'signedupCalCtrl'
+      })
       .when('/addEvents', {
         templateUrl: 'partials/addEvents.html',
         controller: 'addEventsCtrl'

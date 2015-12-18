@@ -73,8 +73,7 @@ app.controller("loginControl",
         		usersRef.set({
           			uid: newUser,
           			shirt: false,
-          			size: "XX",
-          			signup: "stuff"
+          			size: "XX"
      		   })  
    		   })
   
