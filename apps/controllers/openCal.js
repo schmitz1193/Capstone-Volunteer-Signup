@@ -9,7 +9,7 @@ app.controller("openCalCtrl",
 
     // Getting UserID
       var uid = storage.getUserId();
-      console.log("uid", uid);
+      console.log("uid in openCal ", uid);
 
     // Setting up dates using moment
     var date = new Date();
@@ -61,7 +61,7 @@ app.controller("openCalCtrl",
         myObjectToPush.description = data[i].description;
         constructedArray.push(myObjectToPush);
       }
-     // console.log("constructed array ", constructedArray);
+     console.log("constructed array ", constructedArray);
     })
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,8 +88,9 @@ app.controller("openCalCtrl",
     // ///////////////////////////////////////////////////////
 
     // bind the newly constructed array to the DOM
+    console.log("constructedArray ", constructedArray);
     $scope.events = constructedArray;  
-
+    console.log("scoped data for open ", $scope.events);
     // Configure object for the calendar
     $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
