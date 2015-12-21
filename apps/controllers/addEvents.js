@@ -76,7 +76,7 @@ app.controller("addEventsCtrl",
         myObjectToPush.description = data[i].description;
         constructedArray.push(myObjectToPush);
       }
-      // console.log("constructed array ", constructedArray);
+      console.log("constructed array ", constructedArray);
    })
 // /////////////////////////////////////////////////////////////////////////
 // Listen for click events from the Calendar
@@ -97,10 +97,11 @@ app.controller("addEventsCtrl",
 // ////////////////////////////////////////////////////////////////////////
 
     // bind the newly constructed array to the DOM
-    $scope.events = constructedArray;  
-
+    // $scope.events = constructedArray;  
+    console.log("scope events ", $scope.events);
   // Configure the object for the calendar
-    $scope.eventSources = [$scope.events];
+    $scope.eventSources = [constructedArray];
+    // $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
       calendar:{
         height: 450,

@@ -43,10 +43,10 @@ app.controller("openCalCtrl",
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
     $scope.events = [];
+    var constructedArray=[];
 
     // put the event data from the firebase db into an array 
     var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
-    var constructedArray=[];
     $scope.fireEvents = $firebaseArray(ref);
     $scope.fireEvents.$loaded().then(function(data){
       // console.log("data ", data);
