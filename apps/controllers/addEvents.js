@@ -49,10 +49,14 @@ app.controller("addEventsCtrl",
       console.log("all events array", $scope.allEventsArray);
       $scope.allEventsArray.$loaded().then(function(data){
         $scope.allEventsArray.$add({
-          title: $scope.description,
+          title: $scope.title,
+          description: $scope.description,
           start: calStart,
           end: calEnd,
-          allDay: false 
+          allDay: false,
+          allFilled: false,
+          numNeeded: 0,
+          numFilled: 0
         })  
       })
   }
@@ -72,8 +76,11 @@ app.controller("addEventsCtrl",
         myObjectToPush.end = data[i].end;
         myObjectToPush.start = data[i].start;
         myObjectToPush.title = data[i].title;
-        myObjectToPush.id = data[i].$id;
         myObjectToPush.description = data[i].description;
+        myObjectToPush.allFilled = data[i].allFilled;
+        myObjectToPush.numNeeded = data[i].numNeeded;
+        myObjectToPush.numFilled = data[i].numFilled;
+        myObjectToPush.id = data[i].$id;
         constructedArray.push(myObjectToPush);
       }
       console.log("constructed array ", constructedArray);
