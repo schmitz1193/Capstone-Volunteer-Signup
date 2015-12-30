@@ -81,6 +81,7 @@ app.controller("addEventsCtrl",
         myObjectToPush.numNeeded = data[i].numNeeded;
         myObjectToPush.numFilled = data[i].numFilled;
         myObjectToPush.id = data[i].$id;
+        console.log("id ", myObjectToPush.id);
         constructedArray.push(myObjectToPush);
       }
       console.log("constructed array ", constructedArray);

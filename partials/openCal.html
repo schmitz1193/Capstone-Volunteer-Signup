@@ -12,7 +12,7 @@
 		    </div>
         	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       			<ul class="nav navbar-nav">
-	              <li><a href="#/openCal" id="open">Open Assignment</a></li>
+	              <li><a href="#/openCal" id="open">OPEN ASSIGNMENTS</a></li>
 	              <li><a href="#/signedupCal" id="mine" ng-click="findMySignup()">My Assignments</a></li>
 	              <li><a href="#/" id="logout" ng-click="logout()">Sign Out</a></li>
             </ul>
@@ -37,11 +37,12 @@
 	          <h4 class="modal-title">Your committment is appreciated</h4>
 	        </div>
 	        <div class="modal-body">
+	        	<div>Hello {{ modalFirstName}}</div>
 	          	<div>You have clicked on {{ modalTitle }} which is scheduled for {{ modalDay }} between {{ modalStart }} and {{ modalEnd }}.  This assignment will involve {{ modalDescription }}.</div>
 
 				<div>If you would like to sign-up for this assignment, please click below.  You will recieve a confirmation of your assignment prior to your report time.</div>
 
-				<div>As a thank you for you time and talent, we will present you with a t-shirt when you report for your assignment.  Please indicate you size:</div>
+				<div>As a thank you for you time and talent, we will present you with a t-shirt when you report for your assignment.  Please indicate your size:</div>
  	          <div>
 	 	        <select ng-model="size"> 
 	  				<option value="small">S</option>

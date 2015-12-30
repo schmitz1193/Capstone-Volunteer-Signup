@@ -7,16 +7,20 @@ app.controller("signedupCalCtrl",
 
     console.log("1 I made it to signedupCal!");
 
-
+// ???????????????????????????????????????????????????????????????????????????????????????????
 // Need to remove the first event source so we can send full calendar the source that contains
 // only events this user is signup for.
 
     // .fullCalendar( 'removeEventSource', source )
    // $scope.calendar.mycalendar.fullCalendar('removeEventSource', $scope.events);
    // uiCalendarConfig.calendar[calendar].fullCalendar("refetchEvents");
+// ???????????????????????????????????????????????????????????????????????????????????????????
 
      // Getting UserID
       var uid = storage.getUserId();
+      var firstName = storage.getFirstName();
+      var lastName = storage.getLastName();
+
       console.log("uid in signedupCal", uid);
 
     // Setting up dates using moment
@@ -49,19 +53,15 @@ app.controller("signedupCalCtrl",
         var eventsRef = new Firebase("https://capstonesignup.firebaseio.com/events/");
         var eventObj = $firebaseObject(eventsRef);
         eventObj.$loaded().then(function(data){
+          // read the value of the eventsRef and place it in the variable eventsObjectRef
           eventsRef.once('value', function(snap) {
             var eventsObjectRef = snap.val();
             $scope.bindEventKeyArray.forEach(function(element) {
               $scope.events.push(eventsObjectRef[element]);
-              // console.log("constructedArray ", constructedArray);
-              // $scope.events = constructedArray;
-              console.log("3 scope constructed in events ", $scope.events);
             }); 
-           // Do I need a loop here to add the id to this array???????
           });
         });
-    // end of the firebaseobject load
-    });  
+    });  // end of the firebaseobject load
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 

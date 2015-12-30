@@ -1,0 +1,50 @@
+
+<!-- Navigation -->
+	<nav class="navbar navbar-default">
+		<div class="row">
+			<div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#/">Admin</a>
+		    </div>
+        	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      			<ul class="nav navbar-nav">
+	              <li><a href="#/addEvents" id="open">Open Assignments</a></li>
+	              <li><a href="#/filledAssign" id="filled">FILLED ASSIGNMENTS</a></li>
+	              <li><a href="#/addEvents" id="all">All Assignments</a></li>
+	              <li><a href="#/" id="logout" ng-click="logout()">Sign Out</a></li>
+            </ul>
+          </div> 
+      	</div>
+	</nav>
+	
+	<!-- FullCalendar goes here!!!  -->
+	<div class="calendar" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
+	
+	<!-- add assigned info modal -->
+	  <div class="modal fade" tabindex="-1" role="dialog" id="signupModal">
+	    <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title">Here is the info for this assignment:</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<div>Assignment:  {{ modalTitle }}</div> 
+	          	<div>Date: {{ modalDay }}</div>
+	          	<div>Start Time:   {{ modalStart }}</div>
+	          	<div>End Time:  {{ modalEnd }}</div>
+<!-- 	          	<div>Volunteer: {{ modalFirstName }} {{ modalLastName}}</div>
+ -->	          	<div>T-Shirt: {{ size }}</div>
+	          	<div>This assignment will involve {{ modalDescription }}.</div>
+ 	        <div>
+ 	        <div class="modal-footer">
+<!-- 	          <button type="button" class="btn btn-primary" ng-click="">Yes, sign me up!</button>
+ -->	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	  </div><!-- /.modal -->

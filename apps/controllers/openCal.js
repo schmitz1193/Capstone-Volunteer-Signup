@@ -11,6 +11,7 @@ app.controller("openCalCtrl",
       var uid = storage.getUserId();
       console.log("uid in openCal ", uid);
 
+
     // Setting up dates using moment
     var date = new Date();
     var d = date.getDate();
@@ -28,15 +29,17 @@ app.controller("openCalCtrl",
         .then(function(){
         userRef.update({ size: $scope.size });
         })
-      userEvent = $scope.eventKey;
+      // userEvent = $scope.eventKey;
       var userEventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
       $scope.signup = $firebaseArray(userEventRef);
-      // Create a userevent record to store the user and the event they signed up for
+      // Create a userevent record to store the userId, the user names and the event (key) they signed up for
       $scope.signup.$loaded() 
         .then(function(data){
                 $scope.signup.$add({
                 uid: uid,
-                eventid: userEvent
+                firstName: $scope.modalFirstName,
+                lastName: $scope.modalLastName,
+                eventid: $scope.eventKey
            })  
         })
     }
@@ -49,7 +52,7 @@ app.controller("openCalCtrl",
     var ref = new Firebase("https://capstonesignup.firebaseio.com/events/");
     $scope.fireEvents = $firebaseArray(ref);
     $scope.fireEvents.$loaded().then(function(data){
-      // console.log("data ", data);
+      console.log("data ", data);
       for(var i =0; i < data.length; i++){
         var myObjectToPush = {}
         // console.log("data[i]", data[i]);
@@ -57,8 +60,11 @@ app.controller("openCalCtrl",
         myObjectToPush.end = data[i].end;
         myObjectToPush.start = data[i].start;
         myObjectToPush.title = data[i].title;
-        myObjectToPush.id = data[i].$id;
         myObjectToPush.description = data[i].description;
+        myObjectToPush.allFilled = data[i].allFilled;
+        myObjectToPush.numNeeded = data[i].numNeeded;
+        myObjectToPush.numFilled = data[i].numFilled;
+        myObjectToPush.id = data[i].$id;
         constructedArray.push(myObjectToPush);
       }
      console.log("constructed array ", constructedArray);
@@ -79,6 +85,8 @@ app.controller("openCalCtrl",
        $scope.modalStart = moment(event.start).format('HH:mm');
        $scope.modalEnd = moment(event.end).format('HH:mm');
        $scope.modalDescription = event.description;
+       $scope.modalFirstName = storage.getFirstName();
+       $scope.modalLastName = storage.getLastName();
        $scope.eventKey = event.id;
        $scope.event = event;
        // console.log("scope event ", $scope.event);
@@ -88,9 +96,9 @@ app.controller("openCalCtrl",
     // ///////////////////////////////////////////////////////
 
     // bind the newly constructed array to the DOM
-    console.log("constructedArray ", constructedArray);
+    // console.log("constructedArray ", constructedArray);
     $scope.events = constructedArray;  
-    console.log("scoped data for open ", $scope.events);
+    // console.log("scoped data for open ", $scope.events);
     // Configure object for the calendar
     $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
