@@ -46,7 +46,6 @@ app.controller("addEventsCtrl",
   // ///////// Firebase ref for all events  //////////////////////
       var allEvents = new Firebase("https://capstonesignup.firebaseio.com/events/");
       $scope.allEventsArray = $firebaseArray(allEvents);
-      console.log("all events array", $scope.allEventsArray);
       $scope.allEventsArray.$loaded().then(function(data){
         $scope.allEventsArray.$add({
           title: $scope.title,
@@ -56,8 +55,18 @@ app.controller("addEventsCtrl",
           allDay: false,
           allFilled: false,
           numNeeded: 0,
-          numFilled: 0
-        })  
+          numFilled: 0,
+          eventid: ""
+        }).then(function(ref) {
+          // include the key for events as a key value pair in the record
+          var id = ref.key();
+          console.log("added record with id " + id);
+          ref.update({ eventid: id });
+        });
+        console.log("alleventsArray ", $scope.allEventsArray);  
+        // for(var i=0; i<data.length; i++){
+        //   $scope.allEventsArray.eventid[i] = $scope.allEventsArray.$id[i];
+        // }
       })
   }
 // /////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +90,6 @@ app.controller("addEventsCtrl",
         myObjectToPush.numNeeded = data[i].numNeeded;
         myObjectToPush.numFilled = data[i].numFilled;
         myObjectToPush.id = data[i].$id;
-        console.log("id ", myObjectToPush.id);
         constructedArray.push(myObjectToPush);
       }
       console.log("constructed array ", constructedArray);

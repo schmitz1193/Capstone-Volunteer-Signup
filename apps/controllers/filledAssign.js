@@ -24,34 +24,35 @@ app.controller("filledAssignCtrl",
     // bind the newly constructed array to the DOM
     // $scope.events = constructedArray;  
     // console.log("scope events just before config ", $scope.events);    var constructedArray = [];
-    var eventKeyArray = [];
+
+    var constructedArray = [];
 
     // get all the userevents, then with the eventID filter through the events  
     // only put matches into the newwarray for the calendar
 
-    var usereventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
-    var usereventArray = $firebaseArray(usereventRef);
+    $scope.usereventRef = new Firebase("https://capstonesignup.firebaseio.com/userevent/");
+    var usereventArray = $firebaseArray($scope.usereventRef);
     $scope.eventKeyArray = [];
+    $scope.uidArray = [];
 
     usereventArray.$loaded().then(function(data){
       console.log("usereventArray data ", data);
       // create an array with just the eventid keys 
-              data.forEach(function(element) {
-                currentEventId = element.eventid;
-                $scope.eventKeyArray.push(currentEventId);
-                console.log("eventkeyarray ", $scope.eventKeyArray);
-              })
-          var eventsRef = new Firebase("https://capstonesignup.firebaseio.com/events/");
-          var eventObj = $firebaseObject(eventsRef);
-          eventObj.$loaded().then(function(data){
-            // read the value of the eventsRef and place it in the variable eventsObjectRef
-            eventsRef.once('value', function(snap) {
-              var eventsObjectRef = snap.val();
-              console.log("eventsObjectRef -object with event objects ", eventsObjectRef);
-              $scope.eventKeyArray.forEach(function(element) {
-              $scope.events.push(eventsObjectRef[element]);
-            }); 
-          });
+        data.forEach(function(element) {                
+          currentEventId = element.eventid;
+          $scope.eventKeyArray.push(currentEventId);
+          console.log("eventkeyarray ", $scope.eventKeyArray);
+        })
+        var eventsRef = new Firebase("https://capstonesignup.firebaseio.com/events/");
+        var eventObj = $firebaseObject(eventsRef);
+        eventObj.$loaded().then(function(data){
+          // read the value of the eventsRef and place it in the variable eventsObjectRef
+          eventsRef.once('value', function(snap) {
+            var eventsObjectRef = snap.val();
+            $scope.eventKeyArray.forEach(function(element) {
+            $scope.events.push(eventsObjectRef[element]);
+          }); 
+        });
       });   
     });  // end of the firebaseobject load
 
@@ -60,26 +61,30 @@ app.controller("filledAssignCtrl",
     /////// Listen for click events from the Calendar ////////
 
    // /* alert on eventClick - volunteer info to DOM for Admin to view who signed up */
-
-    // using the event id from the event the admin clicked on, filter through userevents to get 
-    // the user that has signed up for it.  
-    // Display the name of the user (i.e.volunteer) on the modal page.
-
-
     $scope.alertEventClick = function( event, jsEvent, view){
        console.log("Event click works ", event);
 
+      // using the event id from the event the admin clicked on, filter through userevents to get 
+      // the user that has signed up for it.  
+      // Display the name of the user (i.e.volunteer) on the modal page.
+      console.log("scoped userevent ", $scope.usereventRef);
+        $scope.usereventRef.orderByChild("eventid").equalTo(event.eventid).on('child_added', function(snapshot){
+        // $scope.usereventRef.on('value', function(snapshot){
+            console.log("snapshot ", snapshot.val());
+            $scope.modalFirstName = snapshot.val().firstName;
+            $scope.modalLastName = snapshot.val().lastName;
+            $scope.modalSize = snapshot.val().size;
+            console.log("firstname ", $scope.modalFirstName);
+        })
+        // Bind the remaining data from the calendar info to the DOM to be displayed in modal
        $scope.modalTitle = event.title;
        $scope.modalDay = moment(event.start).format('YYYY-MM-DD');
        $scope.modalStart = moment(event.start).format('HH:mm');
        $scope.modalEnd = moment(event.end).format('HH:mm');
        $scope.modalDescription = event.description;
-       $scope.eventKey = event.id;
-       console.log("$scope.eventKey ", $scope.eventKey);
        $scope.event = event;
        console.log("scope event ", $scope.event);
        $("#signupModal").modal({show: true});
-
     };
     // ///////////////////////////////////////////////////////
 

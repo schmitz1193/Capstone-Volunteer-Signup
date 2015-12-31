@@ -39,6 +39,7 @@ app.controller("openCalCtrl",
                 uid: uid,
                 firstName: $scope.modalFirstName,
                 lastName: $scope.modalLastName,
+                size: $scope.size,
                 eventid: $scope.eventKey
            })  
         })
