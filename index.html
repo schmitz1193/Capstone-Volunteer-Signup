@@ -15,10 +15,16 @@
   </head>
 
   <body ng-app="CapstoneApp"> 
- 
-
-       <!-- this div is where the calendar will populate --> 
-    <div id="calendar" ng-view>calendar</div>
+    <div class=container>
+        <div class="well">
+            <div class="row-fluid">
+                <div class="span4">
+                    <!-- this div is where the calendar will populate --> 
+                    <div id="calendar" ng-view>calendar</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     
     <script src="lib/bower_components/jquery/dist/jquery.min.js"></script> 
