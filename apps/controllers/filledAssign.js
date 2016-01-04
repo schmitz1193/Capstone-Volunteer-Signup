@@ -1,17 +1,12 @@
-// This module controls the partial filledAssign.html and directs the user to the 
-// my addignments calendar.  i.e. things they have signed up for
+// This module controls the partial filledAssign.html and directs the Admin to the 
+// filled assignments calendar.  i.e. things that have been volunteered for.  Admin can 
+// view the name of the volunteer by clicking on the assignment (event)
 
 app.controller("filledAssignCtrl",
   ["$scope", "storage", "$compile", "$firebaseArray", "$firebaseObject", "uiCalendarConfig", 
    function($scope, storage, $compile, $firebaseArray, $firebaseObject, uiCalendarConfig) {
 
     console.log("I made it to filledAssign!");
-
-     // Getting UserID - dont really need for admin functions
-      // var uid = storage.getUserId();
-      // var firstName = storage.getFirstName();
-      // var lastName = storage.getLastName();
-      // console.log("uid in filledAssign", uid);
 
     // Setting up dates using moment
     var date = new Date();
@@ -20,13 +15,8 @@ app.controller("filledAssignCtrl",
     var y = date.getFullYear(); 
 
     $scope.events = [];
-    // $scope.eventSources = [];
-    // bind the newly constructed array to the DOM
-    // $scope.events = constructedArray;  
-    // console.log("scope events just before config ", $scope.events);    var constructedArray = [];
 
-    var constructedArray = [];
-
+    // Firebase load for this module
     // get all the userevents, then with the eventID filter through the events  
     // only put matches into the newwarray for the calendar
 
@@ -50,13 +40,14 @@ app.controller("filledAssignCtrl",
           eventsRef.once('value', function(snap) {
             var eventsObjectRef = snap.val();
             $scope.eventKeyArray.forEach(function(element) {
+              eventsObjectRef[element].stick = true;
+              console.log("eventsObjecrRef  element ", eventsObjectRef[element]);
             $scope.events.push(eventsObjectRef[element]);
           }); 
         });
       });   
     });  // end of the firebaseobject load
 
-// ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////// Listen for click events from the Calendar ////////
 
@@ -69,7 +60,6 @@ app.controller("filledAssignCtrl",
       // Display the name of the user (i.e.volunteer) on the modal page.
       console.log("scoped userevent ", $scope.usereventRef);
         $scope.usereventRef.orderByChild("eventid").equalTo(event.eventid).on('child_added', function(snapshot){
-        // $scope.usereventRef.on('value', function(snapshot){
             console.log("snapshot ", snapshot.val());
             $scope.modalFirstName = snapshot.val().firstName;
             $scope.modalLastName = snapshot.val().lastName;
@@ -78,18 +68,17 @@ app.controller("filledAssignCtrl",
         })
         // Bind the remaining data from the calendar info to the DOM to be displayed in modal
        $scope.modalTitle = event.title;
-       $scope.modalDay = moment(event.start).format('YYYY-MM-DD');
-       $scope.modalStart = moment(event.start).format('HH:mm');
-       $scope.modalEnd = moment(event.end).format('HH:mm');
+       $scope.modalDay = moment(event.start).format('dddd, MMMM Do YYYY');
+       $scope.modalStart = moment(event.start).format("h:mm a");
+       $scope.modalEnd = moment(event.end).format("h:mm a");
        $scope.modalDescription = event.description;
        $scope.event = event;
        console.log("scope event ", $scope.event);
        $("#signupModal").modal({show: true});
     };
-    // ///////////////////////////////////////////////////////
+    // End of listen for click events //
 
-    // Configure object for the calendar
-
+    // Configure object for the calendar  /////
     $scope.eventSources = [$scope.events];
     $scope.uiConfig = {
       calendar:{
@@ -110,5 +99,6 @@ app.controller("filledAssignCtrl",
         // // eventRender: $scope.eventRender  
       }
     };
+    // End of configure Object for the calendar
   
-}]);
+}]);  // End of fillledAssign.js  

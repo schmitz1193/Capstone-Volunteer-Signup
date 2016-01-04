@@ -57,6 +57,8 @@ app.controller("signedupCalCtrl",
           eventsRef.once('value', function(snap) {
             var eventsObjectRef = snap.val();
             $scope.bindEventKeyArray.forEach(function(element) {
+              eventsObjectRef[element].stick = true;
+              console.log("eventsObjecrRef  element ", eventsObjectRef[element]);
               $scope.events.push(eventsObjectRef[element]);
             }); 
           });

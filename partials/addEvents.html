@@ -21,7 +21,7 @@
 	</nav>
 
   <!-- FullCalendar goes here!!!  -->
-  <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+  <div id="addCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 
   <!-- add board modal -->
   <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
@@ -32,27 +32,45 @@
           <h4 class="modal-title">Please enter all data to create a new assignment</h4>
         </div>
         <div class="modal-body">
-          <div>
-            <label for="start-time">Start Time:  </label><input type="time" ng-model="startTime">
-          </div>
-          <div>
-            <label for="end-time">End Time:  </label><input type="time" ng-model="endTime">
-          </div>
-          <div>
-            <label for="description">Title:  </label><input type="text" ng-model="title">
-          </div>
-          <div>
-            <label for="description">Description:  </label><input type="text" ng-model="description">
-          </div>
-          <div>
-            <label for="num-needed">Volunteers Needed:  </label><input type="text" ng-model="numNeeded">
-          </div>
-          <div><button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button></div>
+          <form name="addForm" novalidate>
+            <div>
+              <label for="start-time">Start Time:  </label><input type="time" name="startTime" ng-model="startTime" required=""/>
+              <div ng-show="addForm.$submitted || addForm.startTime.$touched">
+                <span ng-show="addForm.startTime.$error.required">Please enter a start time</span>
+              </div>
+            </div>
+            <div>
+              <label for="end-time">End Time:  </label><input type="time" name="endTime" ng-model="endTime" required=""/>
+              <div ng-show="addForm.$submitted || addForm.endTime.$touched">
+                <span ng-show="addForm.endTime.$error.required">Please enter an end time</span>
+              </div>
+            </div>
+            <div>
+              <label for="title">Title:  </label><input type="text" name="title" ng-model="title" required=""/>
+              <div ng-show="addForm.$submitted || addForm.title.$touched">
+                <span ng-show="addForm.title.$error.required">Please enter a title for this assignment</span>
+              </div>
+            </div>
+            <div>
+              <label for="description">Description:  </label><input type="text" name="description" ng-model="description" required=""/>
+              <div ng-show="addForm.$submitted || addForm.description.$touched">
+                <span ng-show="addForm.description.$error.required">Please enter a description of the duties for this assignment</span>
+              </div>
+            </div>
+            <div>
+              <label for="numNeeded">Volunteers Needed:  </label><input type="number" name="numNeeded" ng-model="numNeeded" required=""/>
+              <div ng-show="addForm.$submitted || addForm.numNeeded.$touched">
+                <span ng-show="addForm.numNeeded.$error.required">Please indicate how many volunteers are needed for this assignment</span>
+                <span ng-show="addForm.input.$error.number">Please enter a number for the number of volunteers needed</span>
+              </div>
+            </div>
+          </form>
+          <!-- <div><button type="button" class="btn btn-primary" ng-click="addEvent()">Add Event</button></div> -->
           
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" ng-click="">Save</button>
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="addEvent()" ng-disabled="addForm.$invalid">Add Event</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Oops..do not add event</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

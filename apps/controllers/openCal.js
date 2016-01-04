@@ -66,6 +66,7 @@ app.controller("openCalCtrl",
         myObjectToPush.numNeeded = data[i].numNeeded;
         myObjectToPush.numFilled = data[i].numFilled;
         myObjectToPush.id = data[i].$id;
+        myObjectToPush.stick = true;
         constructedArray.push(myObjectToPush);
       }
      console.log("constructed array ", constructedArray);
@@ -82,9 +83,9 @@ app.controller("openCalCtrl",
     $scope.alertEventClick = function( event, jsEvent, view){
        console.log("Event click works ", event);
        $scope.modalTitle = event.title;
-       $scope.modalDay = moment(event.start).format('YYYY-MM-DD');
-       $scope.modalStart = moment(event.start).format('HH:mm');
-       $scope.modalEnd = moment(event.end).format('HH:mm');
+       $scope.modalDay = moment(event.start).format('dddd, MMMM Do YYYY');
+       $scope.modalStart = moment(event.start).format("h:mm a");
+       $scope.modalEnd = moment(event.end).format("h:mm a");
        $scope.modalDescription = event.description;
        $scope.modalFirstName = storage.getFirstName();
        $scope.modalLastName = storage.getLastName();
