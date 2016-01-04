@@ -96,7 +96,11 @@ app.controller("openCalCtrl",
 
     };
     // ///////////////////////////////////////////////////////
-
+    //  $scope.eventRender = function(event, element) {
+    //   console.log("I am at the eventRender");
+    //   element.attr('title', event.title);
+    //   $compile(element)($scope);
+    // };
     // bind the newly constructed array to the DOM
     // console.log("constructedArray ", constructedArray);
     $scope.events = constructedArray;  
@@ -112,6 +116,8 @@ app.controller("openCalCtrl",
           center: 'title',
           right: 'today prev,next'
         },
+        // eventColor: '#378006',
+        // eventBorderColor: 'blue',
         eventLimit: true, // allow "more" link when too many events
         // $scope.weekNumbers = true;
         aspectRatio: 3,
@@ -119,7 +125,7 @@ app.controller("openCalCtrl",
         dayClick: $scope.alertDayClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
-        // // eventRender: $scope.eventRender  
+        // eventRender: $scope.eventRender
       }
     };
 }]);
