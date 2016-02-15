@@ -15,7 +15,7 @@
 
  1. They can also opt to look at a "my assignments" view which will show all events they have committed to.  If they click on an event they will be reminded  of the details.
 
- - Upon successful log-n /sign-in the coordinators path is as follows:
+- Upon successful log-n /sign-in the coordinators path is as follows:
 
   1. Calendar that is populated with volunteer opportunities.
 
