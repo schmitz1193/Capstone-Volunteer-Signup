@@ -1,4 +1,4 @@
-<!-- 
+<!--
 <h1 id="login-photo">VOLUNTEER SIGN-UP</h1>
 
 <div class="wrapper">
@@ -19,11 +19,13 @@
     </div>
 
  -->    <div class="wrapper">
+        <div class="row">
+        <div class="col-md-6">
         <h1>Login for Volunteer Sign-Up</h1>
 
         <form name="userForm" novalidate>
           <div class="form-group">
-            <div class="input-group"> 
+            <div class="input-group">
             <!-- require email and check for valid format -->
               	<input class="form-control" type="email" name="email" ng-model="email" placeholder="Enter Email Address" required=""/>
               	<div ng-show="userForm.$submitted || userForm.email.$touched">
@@ -48,7 +50,11 @@
 		  <a href="#/register" class="btn btn-link">Register</a>
 
         </form>
-
+     </div> <!-- end col 6 -->
+     <div class="col-md-6">
+        <img src="../images/Vol-Sign-Up-Hands.JPG">
+     </div>
+     </div> <!--end row -->
      </div>
 
 
