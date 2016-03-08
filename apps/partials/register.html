@@ -1,0 +1,53 @@
+   <div class="wrapper">
+        <h1>Register for Volunteer Sign-Up</h1>
+
+        <form name="userForm" novalidate>
+          <div class="form-group">
+            <div class="input-group">
+            <!-- require email and check for valid format -->
+              	<input class="form-control" type="email" name="email" ng-model="email" placeholder="Enter Email Address" required=""/>
+              	<div ng-show="userForm.$submitted || userForm.email.$touched">
+            	  	<span ng-show="userForm.email.$error.required">Email is required.</span>
+  				  	    <span ng-show="userForm.email.$error.email">Invalid email address.</span>
+			  	      </div>
+			      </div>
+		       </div>
+
+          <div class="form-group">
+            <div class="input-group">
+            <!-- require password  -->
+              <input class="form-control" type="password" name="password" ng-model="password" placeholder="Enter Password" required=""/>
+              <div ng-show="userForm.$submitted || userForm.password.$touched">
+                <span ng-show="userForm.password.$error.required">Please enter your password</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group">
+            <!-- require name  -->
+              <input class="form-control" type="text" name="firstName" ng-model="firstName" placeholder="Enter first name" required=""/>
+              <div ng-show="userForm.$submitted || userForm.firstName.$touched">
+                <span ng-show="userForm.firstName.$error.required">Please enter your first name</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group">
+            <!-- require name  -->
+	            <input class="form-control" type="text" name="lastName" ng-model="lastName" placeholder="Enter last name" required=""/>
+	            <div ng-show="userForm.$submitted || userForm.lastName.$touched">
+	            	<span ng-show="userForm.lastName.$error.required">Please enter your last name</span>
+	            </div>
+	          </div>
+          </div>
+
+		  <button type="submit" id="btn-xl" class="btn btn-primary" ng-click="registerUser()" ng-disabled="userForm.$invalid">Register</button>
+
+
+        </form>
+
+     </div>
+
+
