@@ -1,4 +1,4 @@
-#NASHVILLE SOFTWARE SCHOOL 
+#NASHVILLE SOFTWARE SCHOOL
 ##FRONT END CAPSTONE-Volunteer-Signup
 
 - This project is a culmination of the first 3 months spent at Nashville Software School.  While the motivation for the project was to allow ease for scheduling volunteers, the application can be applied to any situation where scheduling is required.
@@ -26,6 +26,7 @@
 - Future enhancements include allowing events to be deleted and/or rescheduled and the ability to email volunteers confirmation of signup as well as any changes made to the details of their event.
 
 - To run this application:
-  *bower install*
+  *https://capstonesignup.firebaseapp.com*
+
 
 
