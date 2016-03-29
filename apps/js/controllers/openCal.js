@@ -96,11 +96,6 @@ app.controller("openCalCtrl",
 
     };
     // ///////////////////////////////////////////////////////
-    //  $scope.eventRender = function(event, element) {
-    //   console.log("I am at the eventRender");
-    //   element.attr('title', event.title);
-    //   $compile(element)($scope);
-    // };
     // bind the newly constructed array to the DOM
     // console.log("constructedArray ", constructedArray);
     $scope.events = constructedArray;
