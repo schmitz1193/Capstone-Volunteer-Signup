@@ -1,9 +1,9 @@
 // This module controls the partial addEevents.html and directs the admin to the open
-// assignment calendar.  It also allows for entry of data to create a new event.  
+// assignment calendar.  It also allows for entry of data to create a new event.
 // Only the admin has access to this screen.  i.e. someone with special log-in cedentials
 
 app.controller("addEventsCtrl",
-	["$scope", "storage", "$compile", "$firebaseArray", "$firebaseObject", "uiCalendarConfig", 
+	["$scope", "storage", "$compile", "$firebaseArray", "$firebaseObject", "uiCalendarConfig",
 	 function($scope, storage, $compile, $firebaseArray, $firebaseObject, uiCalendarConfig) {
 
 	console.log("Made it to addEvents!");
@@ -18,21 +18,21 @@ app.controller("addEventsCtrl",
   $scope.time;
   $scope.duration;
   $scope.title;
-  $scope.slots;   
+  $scope.slots;
 
-//  Function called from the Admin screen (modal) to add an event to the db 
-  $scope.addEvent = function() {  
+//  Function called from the Admin screen (modal) to add an event to the db
+  $scope.addEvent = function() {
   // must first format the date and time using Moment
     var stringStart = String($scope.startTime);
     var timeStart = moment(stringStart).format("THH:mm:ss");
 
     var stringEnd = String($scope.endTime);
     var timeEnd = moment(stringEnd).format("THH:mm:ss");
- 
+
     calStart = $scope.newDate + timeStart;
     calEnd = $scope.newDate + timeEnd;
 
-    // Firebase ref for all events - set up the new event from the info on the screen 
+    // Firebase ref for all events - set up the new event from the info on the screen
     var allEvents = new Firebase("https://capstonesignup.firebaseio.com/events/");
     $scope.allEventsArray = $firebaseArray(allEvents);
     $scope.allEventsArray.$loaded().then(function(data){
@@ -68,20 +68,20 @@ app.controller("addEventsCtrl",
               addEventObjectToPush.numNeeded = snapshot.val().numNeeded;
               addEventObjectToPush.numFilled = snapshot.val().numFilled;
               addEventObjectToPush.id = snapshot.val().eventid;
-              addEventObjectToPush.stick = true; 
+              addEventObjectToPush.stick = true;
               console.log("addEventObjectToPush ", addEventObjectToPush);
               $scope.events.push(addEventObjectToPush);
           });
         });
       });
     })
-} 
+}
   // End of add event to db
 
 // Listen for click events from the Calendar - alert on eventClick
     $scope.alertDayClick = function( date, jsEvent, view){
         // need modal so new event for this day can be input..the date from the fullCaledar callback
-        // returns the day (in a moment) that the click was on.  Put it on the scope so the addEvent 
+        // returns the day (in a moment) that the click was on.  Put it on the scope so the addEvent
         // function can use to create a new event
         $("#addModal").modal({show: true});
         $scope.newDate = date.format();
@@ -94,8 +94,8 @@ app.controller("addEventsCtrl",
         console.log("Event click works ", event);
     };
 
-   // Render Tooltip 
-    $scope.eventRender = function( event, element, view ) { 
+   // Render Tooltip
+    $scope.eventRender = function( event, element, view ) {
         element.attr({'tooltip': event.title,
                      'tooltip-append-to-body': true});
         $compile(element)($scope);
@@ -154,8 +154,8 @@ app.controller("addEventsCtrl",
         dayClick: $scope.alertDayClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender  
-      } 
+        eventRender: $scope.eventRender
+      }
     };
-  // }) 
+  // })
 }]);

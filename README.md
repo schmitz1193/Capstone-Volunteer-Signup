@@ -25,8 +25,26 @@
 
 - Future enhancements include allowing events to be deleted and/or rescheduled and the ability to email volunteers confirmation of signup as well as any changes made to the details of their event.
 
-- To run this application:
-  *https://capstonesignup.firebaseapp.com*
+## To deploy:
+https://capstonesignup.firebaseapp.com/
+
+## Installation
+In your browser, navigate to the <a href="https://github.com/schmitz1193/Capstone-Volunteer-Signup">repo</a>
+
+In the top-right corner of the page, click Fork.
+
+In your designated code directory, type:
+
+```
+git clone https://github.com/Your-Username/Capstone-Volunteer-Signup
+cd Capstone-Volunteer-Signup/
+npm install
+bower install
+hs
+```
+## License
+MIT
+
 
 
 
